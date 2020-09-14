@@ -18,7 +18,7 @@ const Login = () => {
   };
   profile();
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.text}>Welcome to Youtube Clone</Text>
@@ -111,5 +111,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginHorizontal: 30,
+    elevation: 5,
   },
 });

@@ -26,7 +26,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <KeyboardAvoidingView>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
