@@ -7,6 +7,7 @@ import Signup from '../screens/Signup';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 import Favourites from '../screens/Favourites';
+import VideoPlayer from '../screens/VideoPlayer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -53,6 +54,7 @@ const AppNavigator = () => {
         <MyStack.Screen name="login" component={Login} />
         <MyStack.Screen name="signup" component={Signup} />
         <MyStack.Screen name="home" component={Home} />
+        <MyStack.Screen name="videoPlayer" component={VideoPlayer} />
       </MyStack.Navigator>
     </NavigationContainer>
   );

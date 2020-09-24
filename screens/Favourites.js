@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 const Favourites = () => {
   return (
     <View>
-      <Text></Text>
+      <Text>Hello World</Text>
     </View>
   );
 };
