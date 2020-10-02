@@ -2,21 +2,15 @@ import React, {useState} from 'react';
 import {Alert, StyleSheet, Text, View} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
 import {ScrollView} from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [email1, setEmail1] = useState('');
-  const [password1, setPassword1] = useState('');
 
-  const profile = async () => {
-    setEmail1(await AsyncStorage.getItem('email_key'));
-    setPassword1(await AsyncStorage.getItem('password_key'));
-  };
-  profile();
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -52,20 +46,34 @@ const Login = () => {
                 Alert.alert('Error', 'Please fill both the fields', [
                   {text: 'Okay'},
                 ]);
-              } else if (email != email1) {
-                Alert.alert('Sorry', 'Wrong Email Address Entered', [
-                  {text: 'Okay'},
-                ]);
-                setEmail('');
-              } else if (password != password1) {
-                Alert.alert('Sorry', 'Wrong Password Entered', [
-                  {text: 'Okay'},
-                ]);
-                setPassword('');
               } else {
-                navigation.navigate('home');
-                setEmail('');
-                setPassword('');
+                auth()
+                  .signInWithEmailAndPassword(email, password)
+                  .then((response) => {
+                    const uid = response.user.uid;
+                    const usersRef = firestore().collection('users');
+                    usersRef
+                      .doc(uid)
+                      .get()
+                      .then((firestoreDocument) => {
+                        if (!firestoreDocument.exists) {
+                          Alert.alert('Error', 'User does not exist anymore', [
+                            {text: 'Okay'},
+                          ]);
+                          return;
+                        }
+                        const user = firestoreDocument.data();
+                        navigation.navigate('home', {user});
+                        setEmail('');
+                        setPassword('');
+                      })
+                      .catch((error) => {
+                        alert(error);
+                      })
+                      .catch((error) => {
+                        alert(error);
+                      });
+                  });
               }
             }}>
             Login

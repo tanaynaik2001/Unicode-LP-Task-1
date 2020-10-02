@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "88245731223",
+    "firebase_url": "https://unicode-lp-task-3.firebaseio.com",
+    "project_id": "unicode-lp-task-3",
+    "storage_bucket": "unicode-lp-task-3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88245731223:android:7802825e0d70e9363bced2",
+        "android_client_info": {
+          "package_name": "com.learningperiod1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88245731223-httlrc1p1fiq70la43ui514qq5grt02e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdB4TzVbZ8T_qrqK7_BWr0XjWZ7jX2cJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88245731223-httlrc1p1fiq70la43ui514qq5grt02e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

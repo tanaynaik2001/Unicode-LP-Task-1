@@ -10,20 +10,17 @@ import {TextInput, RadioButton, Text, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-datepicker';
 import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Signup = () => {
-  const name_key = 'name_key';
-  const email_key = 'email_key';
-  const dob_key = 'dob_key';
-  const gender_key = 'gender_key';
-  const password_key = 'password_key';
-
   const navigation = useNavigation();
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [image, setImage] = useState('');
 
   return (
     <ScrollView style={styles.container}>
@@ -95,7 +92,7 @@ const Signup = () => {
             <Button
               mode="contained"
               color="red"
-              onPress={async () => {
+              onPress={() => {
                 if (
                   name === '' ||
                   password === '' ||
@@ -107,20 +104,32 @@ const Signup = () => {
                     {text: 'Okay'},
                   ]);
                 } else {
-                  try {
-                    await AsyncStorage.setItem(name_key, name);
-                    await AsyncStorage.setItem(email_key, email);
-                    await AsyncStorage.setItem(password_key, password);
-                    await AsyncStorage.setItem(dob_key, dob);
-                    await AsyncStorage.setItem(gender_key, gender);
-                  } catch (error) {
-                    console.log(error);
-                  }
-                  Alert.alert('Saved', 'Your data has been saved successfuly', [
-                    {text: 'Okay'},
-                  ]);
+                  auth()
+                    .createUserWithEmailAndPassword(email, password)
+                    .then((response) => {
+                      const uid = response.user.uid;
 
-                  navigation.goBack();
+                      let account = {};
+                      account.id = response.user.uid;
+                      account.name = name;
+                      account.gender = gender;
+                      account.dob = dob;
+                      account.email = email;
+                      account.password = password;
+                      account.image = image;
+
+                      const usersRef = firestore().collection('users');
+                      usersRef
+                        .doc(uid)
+                        .set(account)
+                        .then(navigation.navigate('login', {uid: uid}))
+                        .catch((error) => {
+                          alert(error);
+                        })
+                        .catch((error) => {
+                          alert(error);
+                        });
+                    });
                 }
               }}>
               Sign-up
