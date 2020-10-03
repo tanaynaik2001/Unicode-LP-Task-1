@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Alert, StyleSheet, View, ActivityIndicator} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {Alert, StyleSheet, View, ActivityIndicator, Image} from 'react-native';
 import {Button, Card} from 'react-native-paper';
 import NameIcon from 'react-native-vector-icons/AntDesign';
 import GmailIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -50,6 +49,16 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <Card style={styles.cardContainer}>
+        <Image
+          source={{uri: `${user['image']}`}}
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 100 / 2,
+            marginTop: 20,
+            marginHorizontal: '35%',
+          }}
+        />
         <Card.Title
           title={user['name']}
           left={() => {
@@ -93,24 +102,7 @@ const Profile = () => {
           Logout
         </Button>
       </View>
-      <View style={styles.btn}>
-        <Button
-          mode="contained"
-          color="red"
-          onPress={async () => {
-            try {
-              AsyncStorage.clear();
-              Alert.alert('Success', 'Account Successfully Deleted', [
-                {text: 'Okay'},
-              ]);
-            } catch (error) {
-              console.log(error);
-            }
-            navigation.navigate('login');
-          }}>
-          Delete Account
-        </Button>
-      </View>
+      <View style={styles.btn}></View>
     </View>
   );
 };

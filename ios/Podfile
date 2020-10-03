@@ -14,6 +14,8 @@ target 'LearningPeriod1' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'LearningPeriod1Tests' do
     inherit! :complete
     # Pods for testing

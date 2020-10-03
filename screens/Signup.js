@@ -5,13 +5,14 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Image,
 } from 'react-native';
 import {TextInput, RadioButton, Text, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-datepicker';
-import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const Signup = () => {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [image, setImage] = useState('');
+  const [images, setImages] = useState('');
 
   return (
     <ScrollView style={styles.container}>
@@ -87,6 +88,33 @@ const Signup = () => {
                 <RadioButton value="Female" color="red" />
               </View>
             </RadioButton.Group>
+
+            <Button
+              color="red"
+              mode="outlined"
+              style={{borderColor: 'red', borderRadius: 15}}
+              onPress={() => {
+                ImagePicker.openPicker({
+                  width: 100,
+                  height: 100,
+                  cropping: true,
+                }).then((image) => {
+                  setImages(image.path);
+                  console.log(images);
+                });
+              }}>
+              Select Image
+            </Button>
+            <Image
+              source={{uri: `${images}`}}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 100 / 2,
+                marginTop: 20,
+                marginHorizontal: '35%',
+              }}
+            />
           </View>
           <View style={styles.btn}>
             <Button
@@ -98,7 +126,8 @@ const Signup = () => {
                   password === '' ||
                   email === '' ||
                   dob === '' ||
-                  gender === ''
+                  gender === '' ||
+                  images === ''
                 ) {
                   Alert.alert('Sorry', 'Please fill all the fields', [
                     {text: 'Okay'},
@@ -116,7 +145,7 @@ const Signup = () => {
                       account.dob = dob;
                       account.email = email;
                       account.password = password;
-                      account.image = image;
+                      account.image = images;
 
                       const usersRef = firestore().collection('users');
                       usersRef
