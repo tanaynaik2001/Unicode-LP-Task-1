@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 const Card = (props) => {
+  const image = `https://i.ytimg.com/vi/${props.videoId}/hqdefault.jpg`;
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -17,6 +18,8 @@ const Card = (props) => {
         navigation.navigate('videoPlayer', {
           videoId: props.videoId,
           title: props.title,
+          channel: props.channel,
+          imageUri: image,
         });
       }}>
       <View style={styles.cardContainer}>
@@ -26,14 +29,14 @@ const Card = (props) => {
           }}
           style={{width: '45%', height: 100}}
         />
+
         <View style={styles.textContainer}>
           <Text style={styles.titleText} ellipsizeMode="tail">
             {props.title}
           </Text>
+
           <Text style={styles.channelText}>{props.channel}</Text>
         </View>
-        {/* <Text>Hello World here is youtube clone</Text>
-        <Text>This is youtube clone</Text> */}
       </View>
     </TouchableOpacity>
   );
